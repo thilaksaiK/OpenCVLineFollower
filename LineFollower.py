@@ -4,28 +4,36 @@ import numpy as np
 import time
 import serial
 
+# This line is to open Bluetooth Serial Port
 ser = serial.Serial('com10', 9600, timeout=.1)
+
+# The time delay is given to open the serial port
 time.sleep(1)
 
+# The url which The IpCam Streams the frames
 url = 'http://192.168.43.1:8080/shot.jpg'
+
+# This variable is to count the number of frames
 a = 0
 
+# This variable is to set the initial time for
 seconds = time.time()
-x_setPoint = 120
+setpoint = 72
+
 angle_Limit = 15
 Error_Limit = 30
 
 x_last = 72
 y_last = 88
 
-kp = 3
-ap = 2
+kp = 1
+ap = 1
 maxSteer = 72*kp + 89*ap
 kernel = np.ones((3, 3), np.uint8)
 
 imgResp = urllib.request.urlopen(url)                           # Use urllib to get the image from the IP camera
 imgNp = np.array(bytearray(imgResp.read()), dtype=np.uint8)     # Numpy to convert into a array
-previousImage = cv2.imdecode(imgNp, -1)                                 # Finally decode the array to OpenCV usable format
+previousImage = cv2.imdecode(imgNp, -1)                         # Finally decode the array to OpenCV usable format
 
 while True :
 
@@ -68,6 +76,8 @@ while True :
                 else:
                     (y_highest, con_highest, x_min, y_min) = canditates[contours_blk_len - 1]
                     blackbox = cv2.minAreaRect(contours_blk[con_highest])
+
+
             (x_min, y_min), (w_min, h_min), ang = blackbox
             x_last = x_min
             y_last = y_min
@@ -78,7 +88,7 @@ while True :
             if w_min > h_min and ang < 0:
                 ang = 90 + ang
 
-            setpoint = 72
+
             error = int(x_min - setpoint)
             ang = int(ang)
 
