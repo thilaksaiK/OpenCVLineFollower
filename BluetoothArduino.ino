@@ -36,9 +36,9 @@ void loop() {
     }
     else if(incomingByte == 128){
       analogWrite(rightFront,0);
-      analogWrite(rightBack,150);
+      analogWrite(rightBack,200);
       analogWrite(leftFront,0);
-      analogWrite(leftBack,150);
+      analogWrite(leftBack,200);
     }
     else if(incomingByte == 64){
       analogWrite(rightFront,150);
@@ -47,17 +47,17 @@ void loop() {
       analogWrite(leftBack,0);
     }
     else if(incomingByte < 64){
-      Speed = (50+incomingByte);
-      analogWrite(rightFront,Speed);
+      Speed = (70+incomingByte);
+      analogWrite(rightFront,220);
       analogWrite(rightBack,0);
-      analogWrite(leftFront,170);
+      analogWrite(leftFront,Speed);
       analogWrite(leftBack,0);
     }
     else if(incomingByte > 64){
-      Speed = (150-incomingByte);
-      analogWrite(rightFront,170);
+      Speed = (170-incomingByte);
+      analogWrite(rightFront,Speed);
       analogWrite(rightBack,0);
-      analogWrite(leftFront,Speed);
+      analogWrite(leftFront,220);
       analogWrite(leftBack,0);
       
     }
